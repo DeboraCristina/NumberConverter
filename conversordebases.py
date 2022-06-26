@@ -2,23 +2,9 @@ import PySimpleGUI as pg
 import pyperclip as clip
 from con_bases import *
 
-def convert(nbr = "", base_a = 0, base_b = 0):
-    value = todec(nbr, base_a)
-    print(value)
-    if base_b == 2:
-        new_value = tobin(int(value))
-        print(new_value )
-        return (new_value)
-    elif base_b == 8:
-        new_value = tooct(int(value))
-        print(new_value )
-        return (new_value)
-    elif base_b == 16:
-        new_value = tohex(int(value))
-        print(new_value )
-        return (new_value)
 
 #layout
+
 pg.theme('Reddit')
 
 inputsize = (10,1)
@@ -44,10 +30,14 @@ col02 = [
 layout = [
     [pg.Column(col01, element_justification='c'), pg.Column(col02)]
 ]
+
+
 #window
+
 win = pg.Window('Number Converter', layout)
 
 #events
+
 while True:
     event, value = win.read()
 
@@ -87,12 +77,5 @@ while True:
             win['b01'].update(todec(value['nbr'], 16))    # Decimal
             win['b02'].update(convert(value['nbr'], 16, 2))    # Binary
             win['b03'].update(convert(value['nbr'], 16, 8))    # Octal
-
-    if event == 'copy01':
-        clip.copy(value['b01'])
-    if event == 'copy02':
-        clip.copy(value['b02'])
-    if event == 'copy03':
-        clip.copy(value['b03'])
 
 win.close()

@@ -75,3 +75,14 @@ def todec(n = "0", base = 0):
         i += 1
     return (str(dec))
 
+def convert(nbr = "", base_a = 0, base_b = 0):
+    value = todec(nbr, base_a)
+    if base_b == 2:
+        new_value = tobin(int(value))
+        return (new_value)
+    elif base_b == 8:
+        new_value = tooct(int(value))
+        return (new_value)
+    elif base_b == 16:
+        new_value = tohex(int(value))
+        return (new_value)
