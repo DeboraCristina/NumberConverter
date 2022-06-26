@@ -1,15 +1,22 @@
 import PySimpleGUI as pg
 import pyperclip as clip
+from con_bases import *
 
-'''
-macros
-
-/\# Hexa   11jci(
-/\# Dec   11jci(
-/\# Oct   11jci(
-/\# Binary  11jci(
-
-'''
+def convert(nbr = "", base_a = 0, base_b = 0):
+    value = todec(nbr, base_a)
+    print(value)
+    if base_b == 2:
+        new_value = tobin(int(value))
+        print(new_value )
+        return (new_value)
+    elif base_b == 8:
+        new_value = tooct(int(value))
+        print(new_value )
+        return (new_value)
+    elif base_b == 16:
+        new_value = tohex(int(value))
+        print(new_value )
+        return (new_value)
 
 #layout
 pg.theme('Reddit')
@@ -22,14 +29,14 @@ col01 = [
     [pg.Button('convert', size = (15, 1))]
 ]
 cl01 = [
-    [pg.Text(key = 'text_result01', text = bases[1], background_color='#0079d3', text_color = '#fff', size = (10, 0), justification='center')],
-    [pg.Text(key = 'text_result02', text = bases[2], background_color='#0079d3', text_color = '#fff', size = (10, 0), justification='center')],
-    [pg.Text(key = 'text_result03', text = bases[3], background_color='#0079d3', text_color = '#fff', size = (10, 0), justification='center')]
+    [pg.Text(key = 'text_result01', text = bases[1], background_color='#0079d3', text_color = '#fff', size = (12, 0), justification='center')],
+    [pg.Text(key = 'text_result02', text = bases[2], background_color='#0079d3', text_color = '#fff', size = (12, 0), justification='center')],
+    [pg.Text(key = 'text_result03', text = bases[3], background_color='#0079d3', text_color = '#fff', size = (12, 0), justification='center')]
 ]
 cl02 = [
-    [pg.Input(key='b01', size = inputsize, readonly=True), pg.Button('▼', key = 'copy01')],
-    [pg.Input(key='b02', size = inputsize, readonly=True), pg.Button('▼', key = 'copy02')],
-    [pg.Input(key='b03', size = inputsize, readonly=True), pg.Button('▼', key = 'copy03')]
+    [pg.Input(key='b01', size = inputsize, readonly=True)],
+    [pg.Input(key='b02', size = inputsize, readonly=True)],
+    [pg.Input(key='b03', size = inputsize, readonly=True)]
 ]
 col02 = [
     [pg.Column(cl01, element_justification='r'), pg.Column(cl02, element_justification='l')]
@@ -56,30 +63,30 @@ while True:
             win['text_result01'].update(bases[1])
             win['text_result02'].update(bases[2])
             win['text_result03'].update(bases[3])
-            win['b01'].update('000')    # Binary
-            win['b02'].update('000')    # Octal
-            win['b03'].update('000')    # Hexadecimal
+            win['b01'].update(tobin(int(value['nbr'])))    # Binary
+            win['b02'].update(tooct(int(value['nbr'])))    # Octal
+            win['b03'].update(tohex(int(value['nbr'])))    # Hexadecimal
         elif value['selbase'] == bases[1]:
             win['text_result01'].update(bases[0])
             win['text_result02'].update(bases[2])
             win['text_result03'].update(bases[3])
-            win['b01'].update('000')    # Decimal
-            win['b02'].update('000')    # Octal
-            win['b03'].update('000')    # Hexadecimal
+            win['b01'].update(todec(value['nbr'], 2))    # Decimal
+            win['b02'].update(convert(value['nbr'], 2, 8)) # Octal
+            win['b03'].update(convert(value['nbr'], 2, 16)) # Hexadecimal
         elif value['selbase'] == bases[2]:
             win['text_result01'].update(bases[0])
             win['text_result02'].update(bases[1])
             win['text_result03'].update(bases[3])
-            win['b01'].update('000')    # Decimal
-            win['b02'].update('000')    # Binary
-            win['b03'].update('000')    # Hexadecimal
+            win['b01'].update(todec(value['nbr'], 8))    # Decimal
+            win['b02'].update(convert(value['nbr'], 8, 2))    # Binary
+            win['b03'].update(convert(value['nbr'], 8, 16))    # Hexadecimal
         elif value['selbase'] == bases[3]:
             win['text_result01'].update(bases[0])
             win['text_result02'].update(bases[1])
             win['text_result03'].update(bases[2])
-            win['b01'].update('000')    # Decimal
-            win['b02'].update('000')    # Binary
-            win['b03'].update('000')    # Octal
+            win['b01'].update(todec(value['nbr'], 16))    # Decimal
+            win['b02'].update(convert(value['nbr'], 16, 2))    # Binary
+            win['b03'].update(convert(value['nbr'], 16, 8))    # Octal
 
     if event == 'copy01':
         clip.copy(value['b01'])
@@ -89,21 +96,3 @@ while True:
         clip.copy(value['b03'])
 
 win.close()
-
-'''
-def dec2bin(n):
-    bin = ''
-    if type(n) != int:
-        return '-1'
-    if n < 0:
-        n = n * (-1)
-        resversebin += '-'
-    return (bin)
-
-a = dec2bin(-8)
-b = dec2bin('10')
-# print(a)
-# print(b)
-'''
-
-
